@@ -8,3 +8,5 @@
 
 # env file
 .env
+
+/db/password.txt
