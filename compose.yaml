@@ -1,4 +1,17 @@
 services:
+  migrate:
+      build:
+        context: .
+        target: migration
+      command: ["sqlx", "migrate", "run"]
+      env_file:
+        - .env
+      environment:
+        DATABASE_URL: ${DATABASE_URL}
+      depends_on:
+        db:
+          condition: service_healthy
+      restart: "no"
   server:
     build:
       context: .
@@ -8,7 +21,7 @@ services:
     env_file:
       - .env
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      DATABASE_URL: ${DATABASE_URL}
     depends_on:
       db:
         condition: service_healthy
